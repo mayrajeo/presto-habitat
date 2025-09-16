@@ -234,7 +234,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>Now that all of the data is processed, next step is to feed it to Presto and use the embeddings for classification.</p>
-<div id="e1f4425a-846a-4b2a-af6a-cd6efcbe0647" class="cell" data-execution_count="1">
+<div id="e1f4425a-846a-4b2a-af6a-cd6efcbe0647" class="cell" data-execution_count="19">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
@@ -250,12 +250,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> LabelEncoder</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> classification_report, ConfusionMatrixDisplay, confusion_matrix</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>sys.path.append(<span class="st">'..'</span>)</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> presto <span class="im">import</span> Presto, construct_single_presto_input</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>device <span class="op">=</span> <span class="st">'cuda'</span> <span class="cf">if</span> torch.cuda.is_available() <span class="cf">else</span> <span class="st">'cpu'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegression</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>sys.path.append(<span class="st">'..'</span>)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> presto <span class="im">import</span> Presto, construct_single_presto_input</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>device <span class="op">=</span> <span class="st">'cuda'</span> <span class="cf">if</span> torch.cuda.is_available() <span class="cf">else</span> <span class="st">'cpu'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>First read the data and convert it to <code>epsg:4326</code>, as one of the inputs to Presto is <code>latlon</code>.</p>
 <div id="0f80be84-700b-4fe3-8e6c-2bab4ced81ab" class="cell" data-execution_count="2">
@@ -486,7 +488,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="e4271eb1-b104-4387-860d-91caefa8e5e1" class="cell" data-execution_count="7">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>x, mask, dw <span class="op">=</span> construct_single_presto_input_batched(gdf, s2_datacols, era5_datacols, n_years<span class="op">=</span><span class="bu">len</span>(years_to_use))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>100%|██████████████████████████████████████████████████████████████| 1397/1397 [00:02&lt;00:00, 563.19it/s]</code></pre>
+<pre><code>100%|██████████████████████████████████████████████████████████████| 1397/1397 [00:02&lt;00:00, 528.18it/s]</code></pre>
 </div>
 </div>
 <p>Put them into a tuple</p>
@@ -616,7 +618,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>        model.<span class="bu">eval</span>()</span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>        embeddings.append(model.encoder(x<span class="op">=</span>x, mask<span class="op">=</span>mask, dynamic_world<span class="op">=</span>dw, latlons<span class="op">=</span>latlons, month<span class="op">=</span>month).cpu())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>100%|███████████████████████████████████████████████████████████████████| 22/22 [00:01&lt;00:00, 12.80it/s]</code></pre>
+<pre><code>100%|███████████████████████████████████████████████████████████████████| 22/22 [00:02&lt;00:00, 10.57it/s]</code></pre>
 </div>
 </div>
 <p>These embeddings can then be used with e.g.&nbsp;<code>RandomForestClassifier</code>.</p>
@@ -1278,26 +1280,26 @@ document.querySelectorAll('.fa-regular.fa-copy').forEach(function(element) {
 <div class="cell-output cell-output-stdout">
 <pre><code>                                   precision    recall  f1-score   support
 
- Sammal-varpu-ruoho (lehtomainen)       0.43      0.56      0.49        32
-             Sammal-varpu (tuore)       0.51      0.68      0.58        84
-   Jäkälä-sammal-varpu (kuivahko)       0.54      0.71      0.61        68
-              Räme-rimpipintasuot       0.29      0.33      0.31         6
-             Ruohoinen heinä-sara       0.20      0.08      0.11        25
+ Sammal-varpu-ruoho (lehtomainen)       0.46      0.59      0.52        32
+             Sammal-varpu (tuore)       0.53      0.70      0.60        84
+   Jäkälä-sammal-varpu (kuivahko)       0.54      0.74      0.62        68
+              Räme-rimpipintasuot       0.11      0.17      0.13         6
+             Ruohoinen heinä-sara       0.17      0.08      0.11        25
              Korpi-rimpipintasuot        nan      0.00      0.00         2
-           Sammaleinen heinä-sara       0.36      0.31      0.33        13
-             Varsinaiset rämesuot       0.40      0.31      0.35        13
+           Sammaleinen heinä-sara       0.30      0.23      0.26        13
+             Varsinaiset rämesuot       0.50      0.23      0.32        13
               Korpi-välipintasuot        nan      0.00      0.00         3
                     Välipintasuot        nan      0.00      0.00         4
                    Rimpipintasuot       0.50      0.33      0.40         6
-             Jäkälä-varpu (kuiva)       0.62      0.33      0.43        15
+             Jäkälä-varpu (kuiva)       0.57      0.27      0.36        15
                   Järvi tai lampi       0.75      1.00      0.86         3
            Jäkälä (karukkokangas)        nan       nan       nan         0
 Kalliolaet, -rinteet ja -terassit       0.50      1.00      0.67         1
-              Louhikot ja kivikot       0.67      0.33      0.44         6
+              Louhikot ja kivikot       0.50      0.33      0.40         6
             Varsinaiset korpisuot        nan       nan       nan         0
                     Ruoho (lehto)       0.50      0.08      0.14        12
-            Kasviton kivennäismaa       0.00      0.00      0.00         4
-         Tuntureiden sammalpinnat       0.00      0.00      0.00         2
+            Kasviton kivennäismaa        nan      0.00      0.00         4
+         Tuntureiden sammalpinnat        nan      0.00      0.00         2
               Väli-rimpipintasuot       0.00      0.00      0.00         2
                Räme-välipintasuot        nan      0.00      0.00         2
                Räme-vesipintasuot        nan       nan       nan         0
@@ -1311,13 +1313,13 @@ Kalliolaet, -rinteet ja -terassit       0.50      1.00      0.67         1
                          Rakennus       0.71      0.62      0.67        24
                               Tie       0.90      0.95      0.93        20
 
-                         accuracy                           0.52       350
-                        macro avg       0.44      0.31      0.29       350
-                     weighted avg       0.51      0.52      0.49       350
+                         accuracy                           0.53       350
+                        macro avg       0.47      0.29      0.28       350
+                     weighted avg       0.51      0.53      0.49       350
 </code></pre>
 </div>
 </div>
-<div id="3db80200-6dd1-4de7-8291-4e827af227dc" class="cell" data-execution_count="21">
+<div id="3db80200-6dd1-4de7-8291-4e827af227dc" class="cell" data-execution_count="18">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>,<span class="dv">1</span>,dpi<span class="op">=</span><span class="dv">200</span>, figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">8</span>))</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>disp <span class="op">=</span> ConfusionMatrixDisplay.from_estimator(clf_all, x_test, y_test, labels<span class="op">=</span>gdf.enc_label.unique(), normalize<span class="op">=</span><span class="va">None</span>,</span>
@@ -1326,6 +1328,70 @@ Kalliolaet, -rinteet ja -terassit       0.50      1.00      0.67         1
 <div>
 <figure class="figure">
 <p><img src="prestotest_files/figure-html/cell-19-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Compare to Logistic Regression</p>
+<div id="62f8a639-b4b9-4f8e-b9f4-484ffd03c9e5" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>lreg <span class="op">=</span> LogisticRegression(max_iter<span class="op">=</span><span class="dv">1000</span>).fit(x_train, y_train)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="3e28e97a-1806-4ea9-b0c2-d55c5969ccc5" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>y_clf_lr <span class="op">=</span> lreg.predict(x_test)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="3901c7da-619d-4b94-b86b-d1ec8e188cc5" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(classification_report(y_test, y_clf_lr, labels<span class="op">=</span>gdf.enc_label.unique(), target_names<span class="op">=</span>gdf.label.unique(), zero_division<span class="op">=</span>np.nan))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                   precision    recall  f1-score   support
+
+ Sammal-varpu-ruoho (lehtomainen)       0.53      0.72      0.61        32
+             Sammal-varpu (tuore)       0.50      0.71      0.59        84
+   Jäkälä-sammal-varpu (kuivahko)       0.50      0.75      0.60        68
+              Räme-rimpipintasuot       0.20      0.33      0.25         6
+             Ruohoinen heinä-sara       0.33      0.12      0.18        25
+             Korpi-rimpipintasuot        nan      0.00      0.00         2
+           Sammaleinen heinä-sara       0.40      0.31      0.35        13
+             Varsinaiset rämesuot       0.75      0.23      0.35        13
+              Korpi-välipintasuot        nan      0.00      0.00         3
+                    Välipintasuot        nan      0.00      0.00         4
+                   Rimpipintasuot       0.33      0.17      0.22         6
+             Jäkälä-varpu (kuiva)       0.67      0.13      0.22        15
+                  Järvi tai lampi       0.75      1.00      0.86         3
+           Jäkälä (karukkokangas)        nan       nan       nan         0
+Kalliolaet, -rinteet ja -terassit        nan      0.00      0.00         1
+              Louhikot ja kivikot       1.00      0.33      0.50         6
+            Varsinaiset korpisuot        nan       nan       nan         0
+                    Ruoho (lehto)        nan      0.00      0.00        12
+            Kasviton kivennäismaa        nan      0.00      0.00         4
+         Tuntureiden sammalpinnat       0.00      0.00      0.00         2
+              Väli-rimpipintasuot        nan      0.00      0.00         2
+               Räme-välipintasuot        nan      0.00      0.00         2
+               Räme-vesipintasuot        nan       nan       nan         0
+               Leveä joki (&gt; 5 m)        nan       nan       nan         0
+                    Vesipintasuot        nan       nan       nan         0
+                         Avolähde        nan      0.00      0.00         1
+        Vyörylouhikot ja -kivikot        nan      0.00      0.00         1
+                       Tihkupinta        nan       nan       nan         0
+                     Arokosteikot        nan      0.00      0.00         1
+              Puro (leveys &lt; 2 m)        nan       nan       nan         0
+                         Rakennus       0.79      0.62      0.70        24
+                              Tie       0.86      0.90      0.88        20
+
+                         accuracy                           0.53       350
+                        macro avg       0.54      0.25      0.25       350
+                     weighted avg       0.55      0.53      0.49       350
+</code></pre>
+</div>
+</div>
+<div id="2e682715-65d2-47cd-b952-780d3406e8b2" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(<span class="dv">1</span>,<span class="dv">1</span>,dpi<span class="op">=</span><span class="dv">200</span>, figsize<span class="op">=</span>(<span class="dv">10</span>,<span class="dv">8</span>))</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>disp <span class="op">=</span> ConfusionMatrixDisplay.from_estimator(lreg, x_test, y_test, labels<span class="op">=</span>gdf.enc_label.unique(), normalize<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>                                             display_labels<span class="op">=</span>gdf.label.unique(), ax<span class="op">=</span>ax, xticks_rotation<span class="op">=</span><span class="st">'vertical'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="prestotest_files/figure-html/cell-23-output-1.png" class="img-fluid figure-img"></p>
 </figure>
 </div>
 </div>
