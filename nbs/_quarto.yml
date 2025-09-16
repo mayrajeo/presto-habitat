@@ -18,8 +18,8 @@ format:
     page-layout: full
     
 website:
-  title: "Mapping recreational marine traffic from Sentinel-2 imagery using YOLO object detection models"
-  description: "Mapping recreational marine traffic from Sentinel-2 imagery using YOLO object detection models"
+  title: "Quick demo for using Presto for habitat mapping"
+  description: "Quick demo for using Presto for habitat mapping"
   open-graph: true
   reader-mode: true
   repo-branch: main
