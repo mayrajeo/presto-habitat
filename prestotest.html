@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>prestotest – Mapping recreational marine traffic from Sentinel-2 imagery using YOLO object detection models</title>
+<title>Using Presto for downstream task – Quick demo for using Presto for habitat mapping</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -109,10 +109,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
 
-<meta property="og:title" content="Presto for downstream task">
-<meta property="og:description" content="Mapping recreational marine traffic from Sentinel-2 imagery using YOLO object detection models">
+<meta property="og:title" content="Using Presto for downstream task – Quick demo for using Presto for habitat mapping">
+<meta property="og:description" content="Quick demo for using Presto for habitat mapping">
 <meta property="og:image" content="https://mayrajeo.github.io/presto-habitat/prestotest_files/figure-html/cell-19-output-1.png">
-<meta property="og:site_name" content="Presto for downstream task">
+<meta property="og:site_name" content="Quick demo for using Presto for habitat mapping">
 <meta property="og:image:height" content="1829">
 <meta property="og:image:width" content="2022">
 </head>
@@ -127,7 +127,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a href="./index.html" class="navbar-brand navbar-brand-logo">
     </a>
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Mapping recreational marine traffic from Sentinel-2 imagery using YOLO object detection models</span>
+    <span class="navbar-title">Quick demo for using Presto for habitat mapping</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -157,7 +157,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./prestotest.html">prestotest.html</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./prestotest.html">Using Presto for downstream task</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
     </div>
@@ -176,31 +176,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./readme.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Presto for downstream tasks</span></a>
+ <span class="menu-text">Using Presto for habitat type classification</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./cdse_odata.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">cdse_odata.html</span></a>
+ <span class="menu-text">CDSE Odata</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./data_from_paituli.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">DEM</span></a>
+ <span class="menu-text">Paituli STAC data access</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./data_sampling.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">data_sampling.html</span></a>
+ <span class="menu-text">Data sampling</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./prestotest.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">prestotest.html</span></a>
+ <span class="menu-text">Using Presto for downstream task</span></a>
   </div>
 </li>
     </ul>
@@ -212,9 +212,25 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         
     </div>
 <!-- main -->
-<main class="content column-page-right" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content column-page-right" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Using Presto for downstream task</h1>
+</div>
 
 
+
+<div class="quarto-title-meta column-page-right">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
 
 
 <p>Now that all of the data is processed, next step is to feed it to Presto and use the embeddings for classification.</p>
@@ -1720,8 +1736,8 @@ Kalliolaet, -rinteet ja -terassit       0.50      1.00      0.67         1
   </script>
 <nav class="page-navigation column-page-right">
   <div class="nav-page nav-page-previous">
-      <a href="./data_sampling.html" class="pagination-link" aria-label="data_sampling.html">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">data_sampling.html</span>
+      <a href="./data_sampling.html" class="pagination-link" aria-label="Data sampling">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Data sampling</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
