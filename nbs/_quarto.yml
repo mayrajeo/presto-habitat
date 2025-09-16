@@ -1,0 +1,43 @@
+project:
+  type: website
+  output-dir: _docs
+  preview: 
+    port: 3000
+    browser: false
+  render:
+    - readme.ipynb
+    - cdse_odata.ipynb
+    - data_from_paituli.ipynb
+    - data_sampling.ipynb
+    - prestotest.ipynb
+    
+format:
+  html:
+    theme: syke.scss
+    toc: true
+    page-layout: full
+    
+website:
+  title: "Mapping recreational marine traffic from Sentinel-2 imagery using YOLO object detection models"
+  description: "Mapping recreational marine traffic from Sentinel-2 imagery using YOLO object detection models"
+  open-graph: true
+  reader-mode: true
+  repo-branch: main
+  repo-subdir: nbs
+  repo-url: https://github.com/mayrajeo/presto-habitat
+  repo-actions: [source]
+  navbar:
+    background: primary
+    search: true
+    right:
+      - icon: github
+        href: https://github.com/mayrajeo/presto-habitat
+  sidebar:
+    style: "floating"
+    contents:
+      - readme.ipynb
+      - cdse_odata.ipynb
+      - data_from_paituli.ipynb
+      - data_sampling.ipynb
+      - prestotest.ipynb
+  page-navigation: true
